@@ -1,12 +1,45 @@
 <script setup lang="ts">
 import IconKey from './icons/IconKey.vue'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import axios from 'axios';
 
-const listKey = ref(['KEY1', 'KEY2', 'KEY3', 'KEY4', 'KEY5'])
-const listEmployee = ref(['EMPLOYEE1', 'EMPLOYEE2', 'EMPLOYEE3', 'EMPLOYEE4', 'EMPLOYEE5'])
+interface Chave {
+  nome: string;
+  situacao: string;
+  status: boolean
+}
+
+interface Servidor {
+  nome: string;
+  cpf: string;
+  contato: string;
+  nascimento: Date,
+  status: boolean
+}
+
+const listKey = ref<Chave[]>([]) 
+const listEmployee = ref<Servidor[]>([])
 
 const key = ref('')
 const employee = ref('')
+
+const fetchDataChave = async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/chave')
+    listKey.value = response.data as Chave[]
+  } catch(error) {
+    console.error("Erro na requisição à API: ", error)
+  }
+}
+
+const fetchDataServidor = async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/servidor')
+    listEmployee.value = response.data as Servidor[]
+  } catch(error) {
+    console.error("Erro na requisição à API: ", error)
+  }
+}
 
 const msgConfirmation = ref('Empréstimo efetuado com sucesso!')
 const show = ref(false)
@@ -15,13 +48,19 @@ function showConfirmation() {
   if(key.value != '' && employee.value != '')
     show.value = !show.value
 }
+
+onMounted(() => {
+  fetchDataChave()
+  fetchDataServidor()
+})
+
 </script>
 
 <template>
   <main>
     <select v-model="key" id="selectKey">
       <option value="" disabled selected hidden>Selecione uma chave</option>
-      <option v-for="key of listKey" :value="key">{{ key }}</option>
+      <option v-for="chave in listKey" :value="chave">{{ chave.nome }}</option>
     </select>
 
     <button @click="showConfirmation">
@@ -30,7 +69,7 @@ function showConfirmation() {
 
     <select v-model="employee" id="selectEmployee">
       <option selected value="" disabled hidden>Selecione um servidor</option>
-      <option v-for="employee of listEmployee" :value="employee">{{ employee }}</option>
+      <option v-for="employee in listEmployee" :value="employee">{{ employee.nome }}</option>
     </select>
 
     <Transition name="slide">

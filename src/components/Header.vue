@@ -21,14 +21,14 @@ const isView = ref(true)
 <style scoped>
 header {
   display: flex;
-  padding: 2rem;
+  padding: 0.5rem 4rem 0.5rem 4rem;
   align-items: center;
   background-color: #54f0e0;
   border-bottom: 1px solid black;
 }
 
 .title {
-  font-size: 1.5rem;
+  font-size: 2rem;
   padding: 0 2rem;
 }
 </style>
