@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import IconKey from './icons/IconKey.vue'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUpdated } from 'vue'
 import axios from 'axios';
 
 interface Chave {
@@ -54,6 +53,11 @@ onMounted(() => {
   fetchDataServidor()
 })
 
+onUpdated(() => {
+  fetchDataChave()
+  fetchDataServidor()
+})
+
 </script>
 
 <template>
@@ -64,7 +68,7 @@ onMounted(() => {
     </select>
 
     <button @click="showConfirmation">
-      <IconKey></IconKey>
+      <img src="../assets/hands.png" alt="logo hands with key" width="70" height="70">
     </button>
 
     <select v-model="employee" id="selectEmployee">
@@ -84,7 +88,6 @@ main {
   padding: 4rem;
   align-items: center;
   justify-content: space-around;
-  border-bottom: 1px solid black;
 }
 
 select {
@@ -94,19 +97,21 @@ select {
   border-radius: 2rem;
   text-align: center;
   font-size: 18px;
+  background-color: #50BF84;
 }
 
 button {
   padding: 1rem;
   border-radius: 50%;
+  background-color: #50BF84;
 }
 
 .view {
   border-radius: 2rem 0 0 2rem;
   position: fixed;
-  top: 100px;
+  top: 200;
   right: 0;
-  background-color: #4ddb6c;
+  background-color: #B3DE5D;
   padding: 1.5rem 5rem 1.5rem 3rem;
   transition: left 0.5s;
 }

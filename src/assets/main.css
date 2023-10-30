@@ -6,6 +6,13 @@
   border: 0;
   box-sizing: border-box;
   font-weight: normal;
+  font-family: 'Chivo', sans-serif;
+
+  --bg-color-1: #B05E31;
+  --bg-color-2: #50BF84;
+  --bg-color-3: #45A452;
+  --bg-color-4: #B3DE5D;
+  --bg-color-5: #000000;
 }
 
 #app {
