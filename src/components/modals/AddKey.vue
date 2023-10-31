@@ -11,7 +11,7 @@ const nomeChave = ref('');
 const cadastrarChave = async () => {
   if (nomeChave.value.trim() !== '') {
     try {
-      const response = await axios.post('http://localhost:3000/chave', { nome: nomeChave.value, situacao: "DISPONIVEL", status: true });
+      const response = await axios.post('http://localhost:3000/chave', { nome: nomeChave.value});
 
       // Lide com a resposta da API, por exemplo, exibindo uma mensagem de sucesso
       console.log('Chave cadastrada com sucesso:', response.data);
