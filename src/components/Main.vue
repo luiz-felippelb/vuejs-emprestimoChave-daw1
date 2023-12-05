@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import BuscarChave from './modals/BuscarChave.vue';
 import { ref, onMounted, onUpdated } from 'vue'
 import axios from 'axios';
 
@@ -31,14 +32,14 @@ const fetchDataChave = async () => {
   }
 }
 
-const fetchDataServidor = async () => {
-  try {
-    const response = await axios.get('http://localhost:3000/servidor')
-    listEmployee.value = response.data as Servidor[]
-  } catch(error) {
-    console.error("Erro na requisição à API: ", error)
-  }
-}
+// const fetchDataServidor = async () => {
+//   try {
+//     const response = await axios.get('http://localhost:3000/servidor')
+//     listEmployee.value = response.data as Servidor[]
+//   } catch(error) {
+//     console.error("Erro na requisição à API: ", error)
+//   }
+// }
 
 const msgConfirmation = ref('Empréstimo efetuado com sucesso!')
 const show = ref(false)
@@ -50,21 +51,29 @@ function showConfirmation() {
 
 onMounted(() => {
   fetchDataChave()
-  fetchDataServidor()
+  //fetchDataServidor()
 })
 
 onUpdated(() => {
   fetchDataChave()
-  fetchDataServidor()
+  //fetchDataServidor()
 })
+
+const chaveRetornada = (chave: Chave) => {
+  key.value = chave.nome;
+};
 
 </script>
 
 <template>
   <main>
+    <BuscarChave @chave-encontrada="chaveRetornada"></BuscarChave>
+
     <select v-model="key" id="selectKey">
-      <option value="" disabled selected hidden>Selecione uma chave</option>
-      <option v-for="chave in listKey" :value="chave">{{ chave.nome }}</option>
+      <option value="" disabled hidden>Selecione uma chave</option>
+      <option v-for="chave in listKey" :value="chave.nome">
+        {{ chave.nome }}
+      </option>
     </select>
 
     <button @click="showConfirmation">
@@ -98,6 +107,10 @@ select {
   text-align: center;
   font-size: 18px;
   background-color: #50BF84;
+}
+
+select:hover {
+  background-color: #B3DE5D;
 }
 
 button {
